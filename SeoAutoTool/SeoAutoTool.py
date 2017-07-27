@@ -2,6 +2,7 @@
 
 import sys
 import json
+import facebook
 # ----------------------function----------------------
 
 
@@ -43,6 +44,32 @@ def settings():
         # close
         data_file.close()
 
+def facebook():
+
+    cfg = {
+        'page_id': '1984826991748449',
+        'access_token': 'EAACxukgPRjUBAGG5ihosxW1HcQs0yZB8PWXx63phZA2iSCzN56PYFyEn1d8dZC8xMaBAG41pLMkhqLcN9HjP5dbA8XfBdxh06buWXzqE64ySBTZBg9Ns7SKnpFFHuOh7ZBRLIn0aQVPfwIMWUVFtYIIeSQ86bfgmbCYacFtEMOdW3mZCaePxIgq5ddOn4E5bDsw0zGpEPOnwZDZD'
+    }
+
+    api = get_api(cfg)
+    msg = "Hello, world!"
+    status = api.put_wall_post(msg)
+
+def get_api(cfg):
+  graph = facebook.GraphAPI(cfg['access_token'])
+  # Get page token to post as the page. You can skip
+  # the following if you want to post as yourself.
+  resp = graph.get_object('me/accounts')
+  page_access_token = None
+  for page in resp['data']:
+    if page['id'] == cfg['page_id']:
+      page_access_token = page['access_token']
+  graph = facebook.GraphAPI(page_access_token)
+  return graph
+
+if __name__ == "__main__":
+  facebook()
+
 # read and print specific progress
 def help():
     print (
@@ -59,7 +86,8 @@ def help():
 def menu(topic):
     if topic == "C":
         settings()
-
+    if topic == "F":
+        facebook()
 # ----------------------main----------------------
 if len(sys.argv) == 1:
 
