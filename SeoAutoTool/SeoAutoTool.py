@@ -3,6 +3,7 @@
 import sys
 import json
 import facebook
+import requests
 # ----------------------function----------------------
 
 
@@ -49,8 +50,8 @@ def settings():
 
 def facebook_option():
     print("Choose an action: \n"
-          "- (P) post a message"
-          "- (S) share a post \n")
+          "- (P) post a message on page"
+          "- (G) post message on group \n")
 
     choice = input("What do you want to do?").lower()
 
@@ -64,6 +65,9 @@ def facebook_option():
             id = data[account + '_' + 'id']
             token = data[account + '_' + 'access_token']
 
+        # close
+        data_file.close()
+
         cfg = {
             'page_id': id,
             'access_token': token,
@@ -73,9 +77,67 @@ def facebook_option():
         msg = input("insert post message")
         status = api.put_wall_post(msg)
 
+    if choice == "g":
+        account = input("insert account").lower()
+        with open("config.json", "r") as data_file:
+            data = json.load(data_file)
+
+            id = data[account + '_' + 'id']
+            token = data[account + '_' + 'access_token']
+
         # close
         data_file.close()
 
+        post_on_group(token)
+
+    if choice == "r":
+        account = input("insert account").lower()
+        with open("config.json", "r") as data_file:
+            data = json.load(data_file)
+
+            id = data[account + '_' + 'id']
+            token = data[account + '_' + 'access_token']
+
+        retrieve_post(token);
+
+def some_action(post):
+        """ Here you might want to do something with each post. E.g. grab the
+        post's message (post['message']) or the post's picture (post['picture']).
+        In this implementation we just print the post's created time.
+        """
+        print(post['message'])
+
+#retrive post
+def retrieve_post(token_id):
+
+    graph = facebook.GraphAPI(token_id)
+    profile = graph.get_object('BillGates')
+    posts = graph.get_connections(profile['id'], 'posts')
+
+    while True:
+        try:
+            # Perform some action on each post in the collection we receive from
+            # Facebook.
+            [some_action(post=post) for post in posts['data']]
+            # Attempt to make a request to the next page of data, if it exists.
+            posts = requests.get(posts['paging']['next']).json()
+        except KeyError:
+            # When there are no more pages (['paging']['next']), break from the
+            # loop and end the script.
+            break
+
+#post on facebook group
+def post_on_group(token_id):
+    graph = facebook.GraphAPI(token_id)
+    groups = graph.get_object("me/groups")
+    group_id = '1803611843284044'
+
+    message = input("insert message")
+
+    graph.put_object(group_id, "feed", message = message)
+
+
+#post on facebook page
 def get_api(cfg):
   graph = facebook.GraphAPI(cfg['access_token'])
   # Get page token to post as the page. You can skip
