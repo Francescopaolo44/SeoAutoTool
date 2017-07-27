@@ -1,20 +1,12 @@
-# SeoAutoTool to optimize website, create share web for Seo
+# SeoAutoTool is a tool to automatize websites' SEO.
+# Copyright (c) 2017 Francesco P. Dellaquila. All Rights Reserved.
 
 import sys
 import json
 import facebook
 import requests
-# ----------------------function----------------------
 
-
-
-
-
-
-
-
-
-#define settings to add account detail
+# define settings to add account detail
 def settings():
     print("Choose an action: \n"
           "- (R) read config file"
