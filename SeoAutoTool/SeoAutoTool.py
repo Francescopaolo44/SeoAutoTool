@@ -15,8 +15,8 @@ import json
 #define settings to add account detail
 def settings():
     print("Choose an action: \n"
-          "- (Read) config file"
-          "- (Write) new account \n")
+          "- (R) read config file"
+          "- (W) write new account \n")
 
     choice = input("What do you want to do?").lower()
 
@@ -27,7 +27,7 @@ def settings():
             data = json.load(data_file)
             data["Day"] = str(day)'''
 
-    if choice == "Write":
+    if choice == "write":
         # open config.json file (write)
         data = {}
         data['key'] = 'value'
