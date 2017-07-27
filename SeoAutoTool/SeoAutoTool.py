@@ -44,15 +44,14 @@ def settings():
         # close
         data_file.close()
 
-def facebook():
-
+def facebook_option():
     cfg = {
         'page_id': '1984826991748449',
-        'access_token': 'EAACxukgPRjUBAGG5ihosxW1HcQs0yZB8PWXx63phZA2iSCzN56PYFyEn1d8dZC8xMaBAG41pLMkhqLcN9HjP5dbA8XfBdxh06buWXzqE64ySBTZBg9Ns7SKnpFFHuOh7ZBRLIn0aQVPfwIMWUVFtYIIeSQ86bfgmbCYacFtEMOdW3mZCaePxIgq5ddOn4E5bDsw0zGpEPOnwZDZD'
+        'access_token': 'EAACxukgPRjUBAGjzIZCE2OFmfDlJNylScTULmZBQLrc4UuM6294mfxDGXrlcSuqpBRf1uFbhVQWsZA20q8LeZCZBRdI4svGZBfTwXtGBFZCXMnYo2KCGxINiiaMBiwFntbGh16gVxA6K9e2CZBZCodQQsTE2GXD7uE0nGqWEYDGNyCwZDZD'
     }
 
     api = get_api(cfg)
-    msg = "Hello, world!"
+    msg = "i like 5"
     status = api.put_wall_post(msg)
 
 def get_api(cfg):
@@ -66,9 +65,6 @@ def get_api(cfg):
       page_access_token = page['access_token']
   graph = facebook.GraphAPI(page_access_token)
   return graph
-
-if __name__ == "__main__":
-  facebook()
 
 # read and print specific progress
 def help():
@@ -87,7 +83,7 @@ def menu(topic):
     if topic == "C":
         settings()
     if topic == "F":
-        facebook()
+        facebook_option()
 # ----------------------main----------------------
 if len(sys.argv) == 1:
 
