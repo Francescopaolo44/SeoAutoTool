@@ -29,8 +29,13 @@ def settings():
 
     if choice == "write":
         # open config.json file (write)
+        account = input("insert account name").lower()
+        id = input("insert page id").lower()
+        access_token = input("insert access token").lower()
         data = {}
-        data['key'] = 'value'
+        data['account'] = account
+        data['id'] = id
+        data['access_token'] = access_token
         with open("config.json", "w") as data_file:
             data_file.write(json.dumps(data))
 
