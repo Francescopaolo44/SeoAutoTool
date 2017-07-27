@@ -20,27 +20,28 @@ def settings():
 
     choice = input("What do you want to do?").lower()
 
-    '''if choice == "Read":
+    if choice == "r":
         # open config.json file (read)
         account = input("Insert account name").lower()
         with open("config.json", "r") as data_file:
             data = json.load(data_file)
-            data["Day"] = str(day)'''
+            print(data[account + '_' + 'id'])
+            print(data[account + '_' + 'access_token'])
 
-    if choice == "write":
+    if choice == "w":
         # open config.json file (write)
         account = input("insert account name").lower()
         id = input("insert page id").lower()
         access_token = input("insert access token").lower()
         data = {}
         data['account'] = account
-        data['id'] = id
-        data['access_token'] = access_token
+        data[account + '_' + 'id'] = id
+        data[account + '_' + 'access_token'] = access_token
         with open("config.json", "w") as data_file:
             data_file.write(json.dumps(data))
 
-    # close
-    data_file.close()
+        # close
+        data_file.close()
 
 # read and print specific progress
 def help():
