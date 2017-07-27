@@ -56,22 +56,25 @@ def facebook_option():
 
     if choice == "p":
 
-        account = input("insert account")
+        account = input("insert account").lower()
 
         with open("config.json", "r") as data_file:
             data = json.load(data_file)
 
+            id = data[account + '_' + 'id']
+            token = data[account + '_' + 'access_token']
+
         cfg = {
-            'page_id': data[account + '_' + 'id'],
-            'access_token': data[account + '_' + 'access_token']
+            'page_id': id,
+            'access_token': token,
         }
 
-        # close
-        data_file.close()
-        
         api = get_api(cfg)
         msg = input("insert post message")
         status = api.put_wall_post(msg)
+
+        # close
+        data_file.close()
 
 def get_api(cfg):
   graph = facebook.GraphAPI(cfg['access_token'])
