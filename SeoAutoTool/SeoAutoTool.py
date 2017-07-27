@@ -69,18 +69,20 @@ if len(sys.argv) == 1:
           "- (H) show possible command\n\n")
 
     check_topic = False
-    topic = ""
 
     while check_topic == False:
-        topic = input("What do you want to do?").upper()
+        chose = input("What you want to do?").upper()
 
-        if topic == "C" or topic == "F" or topic == "I" or topic == "T" or topic == "J" or topic == "L" or topic == "H":
+        if chose == "C" or chose == "F" or chose == "I" \
+                or chose == "T" or chose == "J" or chose == "L" or chose == "H":
+
             check_topic = True
-        else:
-            print("\nwrong action")
 
-    # call menu
-    menu(topic)
+        else:
+            print("wrong action\n\n")
+
+        # call menu
+        menu(chose)
 
 else:
     if sys.argv[1].upper() == "C" or sys.argv[1].upper() == "F" or sys.argv[1].upper() == "I" \
