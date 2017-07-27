@@ -29,6 +29,9 @@ def settings():
             print(data[account + '_' + 'id'])
             print(data[account + '_' + 'access_token'])
 
+            # close
+            data_file.close()
+
     if choice == "w":
         # open config.json file (write)
         account = input("insert account name").lower()
@@ -45,14 +48,30 @@ def settings():
         data_file.close()
 
 def facebook_option():
-    cfg = {
-        'page_id': '1984826991748449',
-        'access_token': 'EAACxukgPRjUBAGjzIZCE2OFmfDlJNylScTULmZBQLrc4UuM6294mfxDGXrlcSuqpBRf1uFbhVQWsZA20q8LeZCZBRdI4svGZBfTwXtGBFZCXMnYo2KCGxINiiaMBiwFntbGh16gVxA6K9e2CZBZCodQQsTE2GXD7uE0nGqWEYDGNyCwZDZD'
-    }
+    print("Choose an action: \n"
+          "- (P) post a message"
+          "- (S) share a post \n")
 
-    api = get_api(cfg)
-    msg = "i like 5"
-    status = api.put_wall_post(msg)
+    choice = input("What do you want to do?").lower()
+
+    if choice == "p":
+
+        account = input("insert account")
+
+        with open("config.json", "r") as data_file:
+            data = json.load(data_file)
+
+        cfg = {
+            'page_id': data[account + '_' + 'id'],
+            'access_token': data[account + '_' + 'access_token']
+        }
+
+        # close
+        data_file.close()
+        
+        api = get_api(cfg)
+        msg = input("insert post message")
+        status = api.put_wall_post(msg)
 
 def get_api(cfg):
   graph = facebook.GraphAPI(cfg['access_token'])
