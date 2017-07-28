@@ -23,11 +23,8 @@ def settings():
 
     #create json array
     data = {}
-    access_token = input("insert access token").lower()
-    data['token'] = access_token
 
     check = False
-
 
     while check == False:
         name = input("insert group_name")
@@ -95,33 +92,42 @@ def facebook_option():
         status = api.put_wall_post(msg, attachment=attachment)'''
 
     if choice == "g":
-        account = input("insert file name").lower()
-        with open(account + ".json", "r") as data_file:
-            data = json.load(data_file)
 
-            token = data[account + '_' + 'access_token']
+        file_check = False
 
-        # close
-        data_file.close()
+        while file_check == False:
+            account = input("insert file name").lower()
 
-        post_on_group(token)
+            if os.path.isfile('./' + account + '.json') == True:
+                print("Ops! The file already exist. Retry")
+
+                with open(account + ".json", "r") as data_file:
+                    data = json.load(data_file)
+                    print(data)
+
+                    #make post attachament
+                    name = input("insert post name")
+                    link = input("insert sharable post link")
+
+                    # close
+                    data_file.close()
+
+                #post_on_group(token)
+
+            else:
+                print("Ops! The file doesn't exist. Retry!")
 
     else:
         print("wrong action")
 
 #post on facebook group
-def post_on_group(token_id):
+def post_on_group(token_id,group_id,message,name,link):
     graph = facebook.GraphAPI(token_id)
     groups = graph.get_object("me/groups")
-    group_id = '1803611843284044'
-
-    message = input("insert message")
 
     attachment = {
-        'name': 'Oltremare',
-        'link': 'https://www.facebook.com/permalink.php?story_fbid=805209756301573&id=771403016348914',
-        'caption': 'Scopri oltremare',
-        'description': 'bla bla bla bla',
+        'name': name,
+        'link': link,
     }
 
     graph.put_wall_post(message,attachment,group_id)
