@@ -11,8 +11,10 @@ import time
 def give_token():
     with open("settings.json", "r") as data_file:
         data = json.load(data_file)
-        return data['token']
-
+        token = data['token']
+        #close file
+        data.close()
+        return token
 #define settings to add account detail
 def settings():
     file_check = False
@@ -25,41 +27,42 @@ def settings():
          print("Ops! The file already exist. Retry")
 
         else:
-            file_check = True
+            with open(account + ".json", "w+") as data_file:
 
+                #create json array
+                data = {}
 
-    #create json array
-    data = {}
-
-    check = False
-
-    while check == False:
-        name = input("insert group_name")
-        id = input("insert group id").lower()
-        data[name] = id
-
-        response = False
-
-        while response == False:
-
-            chose = input("You are finish?(Y/N) ").lower()
-
-            if chose == "y":
-                response = True
-                check = True
-
-            elif chose == "n":
-                response = True
                 check = False
 
-            else:
-                print("wrong action")
+                while check == False:
+                    name = input("insert group_name")
+                    id = input("insert group id").lower()
+                    data[name] = id
 
-    with open(account + ".json", "w+") as data_file:
-      data_file.write(json.dumps(data))
+                    data_file.write(json.dumps(data))
+                    
+                    response = False
 
-       # close
-    data_file.close()
+                    while response == False:
+
+                        chose = input("You are finish?(Y/N) ").lower()
+
+                        if chose == "y":
+                            response = True
+                            check = True
+
+                        elif chose == "n":
+                            response = True
+                            check = False
+
+                        else:
+                            print("wrong action")
+
+                        # close
+                        data_file.close()
+
+                        file_check = False
+
 
 def facebook_option():
     print("Choose an action: \n"
