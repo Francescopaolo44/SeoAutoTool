@@ -3,16 +3,7 @@
 import sys
 import json
 import facebook
-import requests
 # ----------------------function----------------------
-
-
-
-
-
-
-
-
 
 #define settings to add account detail
 def settings():
