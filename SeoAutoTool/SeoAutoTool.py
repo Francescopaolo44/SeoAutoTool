@@ -1,52 +1,69 @@
 # SeoAutoTool to optimize website, create share web for Seo
 
 import sys
+import os
 import json
 import facebook
 # ----------------------function----------------------
 
 #define settings to add account detail
 def settings():
-    print("Choose an action: \n"
-          "- (R) read config file"
-          "- (W) write new account \n")
+    file_check = False
 
-    choice = input("What do you want to do?").lower()
-
-    if choice == "r":
-        # open config.json file (read)
-        account = input("Insert account name").lower()
-        with open("config.json", "r") as data_file:
-            data = json.load(data_file)
-            print(data[account + '_' + 'id'])
-            print(data[account + '_' + 'access_token'])
-
-            # close
-            data_file.close()
-
-    if choice == "w":
+    while file_check == False:
         # open config.json file (write)
-        account = input("insert account name").lower()
-        id = input("insert page id").lower()
-        access_token = input("insert access token").lower()
-        data = {}
-        data['account'] = account
-        data[account + '_' + 'id'] = id
-        data[account + '_' + 'access_token'] = access_token
-        with open("config.json", "w") as data_file:
-            data_file.write(json.dumps(data))
+        account = input("insert file name").lower()
 
-        # close
-        data_file.close()
+        if os.path.isfile('./' + account + '.json') == True:
+         print("Ops! The file already exist. Retry")
+
+        else:
+            file_check = True
+
+
+    #create json array
+    data = {}
+    access_token = input("insert access token").lower()
+    data['token'] = access_token
+
+    check = False
+
+
+    while check == False:
+        name = input("insert group_name")
+        id = input("insert group id").lower()
+        data[name] = id
+
+        response = False
+
+        while response == False:
+
+            chose = input("You are finish?(Y/N) ").lower()
+
+            if chose == "y":
+                response = True
+                check = True
+
+            elif chose == "n":
+                response = True
+                check = False
+
+            else:
+                print("wrong action")
+
+    with open(account + ".json", "w+") as data_file:
+      data_file.write(json.dumps(data))
+
+       # close
+    data_file.close()
 
 def facebook_option():
     print("Choose an action: \n"
-          "- (P) post a message on page"
           "- (G) post message on group \n")
 
     choice = input("What do you want to do?").lower()
 
-    if choice == "p":
+    '''if choice == "p":
 
         account = input("insert account").lower()
 
@@ -75,20 +92,22 @@ def facebook_option():
         }
 
 
-        status = api.put_wall_post(msg, attachment=attachment)
+        status = api.put_wall_post(msg, attachment=attachment)'''
 
     if choice == "g":
-        account = input("insert account").lower()
-        with open("config.json", "r") as data_file:
+        account = input("insert file name").lower()
+        with open(account + ".json", "r") as data_file:
             data = json.load(data_file)
 
-            id = data[account + '_' + 'id']
             token = data[account + '_' + 'access_token']
 
         # close
         data_file.close()
 
         post_on_group(token)
+
+    else:
+        print("wrong action")
 
 #post on facebook group
 def post_on_group(token_id):
@@ -108,7 +127,7 @@ def post_on_group(token_id):
     graph.put_wall_post(message,attachment,group_id)
 
 
-#post on facebook page
+''''#post on facebook page
 def get_api(cfg):
   graph = facebook.GraphAPI(cfg['access_token'])
   # Get page token to post as the page. You can skip
@@ -119,7 +138,7 @@ def get_api(cfg):
     if page['id'] == cfg['page_id']:
       page_access_token = page['access_token']
   graph = facebook.GraphAPI(page_access_token)
-  return graph
+  return graph'''
 
 # read and print specific progress
 def help():
