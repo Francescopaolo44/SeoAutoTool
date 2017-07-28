@@ -58,7 +58,7 @@ def facebook_option():
         file_check = False
 
         while file_check == False:
-            account = input("insert file name").lower()
+            account = input("insert file name: ").lower()
 
             if os.path.isfile('./' + account + '.json') == True:
 
@@ -66,9 +66,9 @@ def facebook_option():
                     data = json.load(data_file)
 
                     #make post attachament
-                    message = input("insert post message")
-                    name = input("insert post name")
-                    link = input("insert sharable post link")
+                    message = input("insert post message: ")
+                    name = input("insert post name: ")
+                    link = input("insert sharable post link: ")
 
                     for key, value in data.items():
                         post_on_group(token,value,message,name,link)
@@ -141,7 +141,7 @@ if len(sys.argv) == 1:
     check_topic = False
 
     while check_topic == False:
-        chose = input("What you want to do?").upper()
+        chose = input("What you want to do?: ").upper()
 
         if chose == "C" or chose == "F" or chose == "I" \
                 or chose == "T" or chose == "J" or chose == "L" or chose == "H":
