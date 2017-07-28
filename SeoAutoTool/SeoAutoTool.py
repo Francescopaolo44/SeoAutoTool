@@ -75,7 +75,16 @@ def facebook_option():
 
         api = get_api(cfg)
         msg = input("insert post message")
-        status = api.put_wall_post(msg)
+
+        attachment = {
+            'name': 'Oltremare',
+            'link': 'https://www.facebook.com/permalink.php?story_fbid=805209756301573&id=771403016348914',
+            'caption': 'Scopri oltremare',
+            'description': 'bla bla bla bla',
+        }
+
+
+        status = api.put_wall_post(msg, attachment=attachment)
 
     if choice == "g":
         account = input("insert account").lower()
@@ -134,7 +143,14 @@ def post_on_group(token_id):
 
     message = input("insert message")
 
-    graph.put_object(group_id, "feed", message = message)
+    attachment = {
+        'name': 'Oltremare',
+        'link': 'https://www.facebook.com/permalink.php?story_fbid=805209756301573&id=771403016348914',
+        'caption': 'Scopri oltremare',
+        'description': 'bla bla bla bla',
+    }
+
+    graph.put_object(group_id, "post", message = message, attachment = attachment)
 
 
 #post on facebook page
