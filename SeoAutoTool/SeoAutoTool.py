@@ -4,7 +4,14 @@ import sys
 import os
 import json
 import facebook
+import time
 # ----------------------function----------------------
+
+#give access token
+def give_token():
+    with open("settings.json", "r") as data_file:
+        data = json.load(data_file)
+        return data['token']
 
 #define settings to add account detail
 def settings():
@@ -93,26 +100,29 @@ def facebook_option():
 
     if choice == "g":
 
+        token = give_token()
+
         file_check = False
 
         while file_check == False:
             account = input("insert file name").lower()
 
             if os.path.isfile('./' + account + '.json') == True:
-                print("Ops! The file already exist. Retry")
 
                 with open(account + ".json", "r") as data_file:
                     data = json.load(data_file)
-                    print(data)
 
                     #make post attachament
+                    message = input("insert post message")
                     name = input("insert post name")
                     link = input("insert sharable post link")
 
+                    for key, value in data.items():
+                        post_on_group(token,value,message,name,link)
+                        time.sleep(30)
+
                     # close
                     data_file.close()
-
-                #post_on_group(token)
 
             else:
                 print("Ops! The file doesn't exist. Retry!")
