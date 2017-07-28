@@ -12,57 +12,7 @@ def give_token():
     with open("settings.json", "r") as data_file:
         data = json.load(data_file)
         token = data['token']
-        #close file
-        data.close()
         return token
-#define settings to add account detail
-def settings():
-    file_check = False
-
-    while file_check == False:
-        # open config.json file (write)
-        account = input("insert file name").lower()
-
-        if os.path.isfile('./' + account + '.json') == True:
-         print("Ops! The file already exist. Retry")
-
-        else:
-            with open(account + ".json", "w+") as data_file:
-
-                #create json array
-                data = {}
-
-                check = False
-
-                while check == False:
-                    name = input("insert group_name")
-                    id = input("insert group id").lower()
-                    data[name] = id
-
-                    data_file.write(json.dumps(data))
-                    
-                    response = False
-
-                    while response == False:
-
-                        chose = input("You are finish?(Y/N) ").lower()
-
-                        if chose == "y":
-                            response = True
-                            check = True
-
-                        elif chose == "n":
-                            response = True
-                            check = False
-
-                        else:
-                            print("wrong action")
-
-                        # close
-                        data_file.close()
-
-                        file_check = False
-
 
 def facebook_option():
     print("Choose an action: \n"
@@ -124,9 +74,8 @@ def facebook_option():
                         post_on_group(token,value,message,name,link)
                         time.sleep(30)
 
-                    # close
-                    data_file.close()
-
+                # close
+                data_file.close()
             else:
                 print("Ops! The file doesn't exist. Retry!")
 
@@ -140,7 +89,7 @@ def post_on_group(token_id,group_id,message,name,link):
 
     attachment = {
         'name': name,
-        'link': link,
+        'link': "https://" + link,
     }
 
     graph.put_wall_post(message,attachment,group_id)
@@ -173,8 +122,6 @@ def help():
 
 # menu function
 def menu(topic):
-    if topic == "C":
-        settings()
     if topic == "F":
         facebook_option()
 # ----------------------main----------------------
