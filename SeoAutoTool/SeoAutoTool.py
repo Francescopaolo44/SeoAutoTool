@@ -99,42 +99,6 @@ def facebook_option():
 
         post_on_group(token)
 
-    if choice == "r":
-        account = input("insert account").lower()
-        with open("config.json", "r") as data_file:
-            data = json.load(data_file)
-
-            id = data[account + '_' + 'id']
-            token = data[account + '_' + 'access_token']
-
-        retrieve_post(token);
-
-def some_action(post):
-        """ Here you might want to do something with each post. E.g. grab the
-        post's message (post['message']) or the post's picture (post['picture']).
-        In this implementation we just print the post's created time.
-        """
-        print(post['message'])
-
-#retrive post
-def retrieve_post(token_id):
-
-    graph = facebook.GraphAPI(token_id)
-    profile = graph.get_object('BillGates')
-    posts = graph.get_connections(profile['id'], 'posts')
-
-    while True:
-        try:
-            # Perform some action on each post in the collection we receive from
-            # Facebook.
-            [some_action(post=post) for post in posts['data']]
-            # Attempt to make a request to the next page of data, if it exists.
-            posts = requests.get(posts['paging']['next']).json()
-        except KeyError:
-            # When there are no more pages (['paging']['next']), break from the
-            # loop and end the script.
-            break
-
 #post on facebook group
 def post_on_group(token_id):
     graph = facebook.GraphAPI(token_id)
@@ -150,7 +114,7 @@ def post_on_group(token_id):
         'description': 'bla bla bla bla',
     }
 
-    graph.put_object(group_id, "post", message = message, attachment = attachment)
+    graph.put_wall_post(message,attachment,group_id)
 
 
 #post on facebook page
