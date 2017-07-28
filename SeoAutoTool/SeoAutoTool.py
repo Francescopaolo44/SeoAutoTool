@@ -71,12 +71,12 @@ def facebook_option():
                     link = input("insert sharable post link: ")
 
                     for key, value in data.items():
-                        try: post_on_group(token,value,message,name,link)
-                        except: print(key + "error!")
-
-                        print(key + "Done")
-                        
-                        time.sleep(30)
+                        try:
+                            post_on_group(token,value,message,name,link)
+                            print(key + "Done")
+                            time.sleep(30)
+                        except:
+                            print(key + "error!")
 
                 # close
                 data_file.close()
